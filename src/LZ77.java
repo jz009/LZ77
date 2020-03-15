@@ -9,7 +9,7 @@ public class LZ77 {
     public LZ77(String in) {
         input = in;
         divide = 0;
-        sbMax = 10;
+        sbMax = 2048;
         list = new ArrayList<Triple>();
     }
 
@@ -59,7 +59,7 @@ public class LZ77 {
             int tempLong = 0;
             int tempIndex = -1;
             int j = 0;
-            while(divide + j < stream.length && stream[i + j] == stream[divide + j]) {
+            while(divide + j < stream.length && j < 8 && stream[i + j] == stream[divide + j]) {
                 tempLong = j + 1;
                 tempIndex = i;
                 j++;
@@ -82,9 +82,11 @@ public class LZ77 {
     public void runTest() {
         this.compress();
         String output = this.decompress();
-        System.out.println("Input was:  " + input);
-        System.out.println("Output was: " + output);
-
+        int compressedBits = list.size() * 16;
+        int origChars = input.length();
+        System.out.println(input);
+        System.out.println(output);
+        System.out.println("Bits per character: " + compressedBits / origChars);
     }
 
     private class Triple {
