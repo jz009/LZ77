@@ -3,12 +3,13 @@ import java.util.ArrayList;
 public class LZ77 {
     private String input;
     private int divide;
-    private int pos;
-    ArrayList<Triple> list;
+    private ArrayList<Triple> list;
+    private int sbMax;
 
     public LZ77(String in) {
         input = in;
         divide = 0;
+        sbMax = 10;
         list = new ArrayList<Triple>();
     }
 
@@ -49,7 +50,12 @@ public class LZ77 {
     private Triple findBestMatch(int divide,char[] stream) {
         int longMatch = 0;
         int matchIndex = -1;
-        for (int i = 0; i < divide; i++) {
+        int start;
+        if (divide - sbMax > - 1) {
+            start = divide - sbMax;
+        }
+        else start = 0;
+        for (int i = start; i < divide; i++) {
             int tempLong = 0;
             int tempIndex = -1;
             int j = 0;
